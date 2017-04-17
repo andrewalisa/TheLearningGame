@@ -19,9 +19,11 @@ global.game_state_col = 1;
 //When the questions come up.
 global.game_state_askQuestions = 2;
 //When the player sees a textbox 
-global.game_state_textbox = 3
+global.game_state_textbox = 3;
 //When the player is done talking to the character 
-global.game_state_doneTalking = 4
+global.game_state_doneTalking = 4;
+//When the player is done talking to the character 
+global.game_state_doneQuestions = 5;
 
 //It is assumed when the game starts, that everything is okay. 
 global.game_state = global.game_state_regular;
@@ -40,6 +42,8 @@ global.col_with_oldlady = 4;
 global.col_with_guyinhat = 5;
 //Player collided with guyingreen
 global.col_with_guyingreen = 6;
+//Player collided with door
+global.col_with_door = 7;
 
 //Player collided with nobody. This is the default variable
 global.col_with = global.col_with_nobody;
@@ -86,6 +90,7 @@ global.char_isBottom = false;</code>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
   </views>
   <instances>
+    <instance objName="obj_door" x="496" y="144" name="inst_5980A8BE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_guy" x="224" y="192" name="inst_B0D19151" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_diana" x="64" y="48" name="inst_9513630C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_ladyinred" x="256" y="48" name="inst_435929CB" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -115,7 +120,6 @@ global.char_isBottom = false;</code>
     <instance objName="obj_invisible" x="128" y="256" name="inst_86E83325" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_invisible" x="320" y="288" name="inst_EDC20047" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_invisible" x="320" y="320" name="inst_DFE14479" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_door" x="496" y="144" name="inst_5980A8BE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_invisible" x="448" y="208" name="inst_1867EAAA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_invisible" x="176" y="352" name="inst_18A9AFD4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_invisible" x="128" y="272" name="inst_D27DE1B8" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>

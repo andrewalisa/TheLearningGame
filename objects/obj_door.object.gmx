@@ -3,11 +3,225 @@
   <spriteName>spr_door</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>1</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
-  <events/>
+  <events>
+    <event eventtype="0" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///This is where the messages are at. 
+
+
+//write your messages in an array, starting at 0, like so
+question[0] = "What kind of drink did Diana ask for?";
+question[1] = "How many times more does human saliva need to reach a boiling point compared to water?";
+question[2] = "During your lifetime, the amount of saliva you produce will fill up how many swimming pools?";
+question[3] = "Bananas are curved because they grow towards what?";
+question[4] = "What can rubbing a banana peel on your forehead cure?";
+question[5] = "If you lift a kangaroo’s tail off the ground, what can’t it do?";
+question[6] = "There are more kangaroos than ___ in Australia";
+question[7] = "Where did fedoras first originate?";
+question[8] = "Who wore the brim turned down so it could cover their eyes?";
+question[9] = "What is the latest Zelda game called?";
+question[10] = "What score did Breath of the Wild receive on IGN Reviews?";
+
+
+correctAnswer[0] = "Dirty martini";
+otherChoice1[0] = "Lemonade";
+otherchoice2[0]= "Long island";
+otherChoice3[0]= "Jack and Coke";
+
+//edit numbers below
+question_current = 0; //0 is the first number in our array, and the message we are currently at
+question_end = 10; //2 is the last number in our array
+question_draw = ""; //this is what we 'write' out. It's blank right now
+answer_draw = ""; //this is what we 'write' out. It's blank right now
+increase = 0.5; //the speed at which new characters are added
+characters = 0; //how many characters have already been drawn
+hold = 0; //if we hold 'Z', the text will render faster
+
+question_length = string_length(question[question_current]); //get the number of characters in the first message
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///This controls what is outputted to the textbox. 
+
+if (global.game_state == global.game_state_textbox &amp;&amp;  global.col_with == global.col_with_door) {
+    if (characters &lt; question_length) { //if current character count is less than the amount in current message* 
+        hold = keyboard_check(ord("Z")); //hold is true or false if we hold 'Z' or not
+        characters += increase * (1 + hold); //increase speed based on hold
+        question_draw  = string_copy(question[question_current], 0, characters); //copy string to current character
+        answer_draw = string_copy(correctAnswer[question_current], 0, characters);
+    } 
+    else { //if current character is more than the amount in the current message
+        if (keyboard_check_pressed(ord("Z"))) { //if we press Z...
+            if (question_current &lt; question_end) { //if there are more messages left to show (0 -&gt; 6, in our case)
+                question_current += 1; //increase the message by 1
+                question_length = string_length(question[question_current]);  //get the new character length for message
+                characters = 0; //set the characters back to 0
+            }
+            else { //if our messages are done (we reach 6, in our case)...
+                question_draw = ""; //Setting this to blank  
+                answer_draw = ""; //Setting this to blank  
+                question_current = 0; // Resetting the variable
+                characters = 0; //set the characters back to 0
+                //global.game_state = global.game_state_doneQuestions; //Changing the game state to the character now done talking
+                //show_debug_message("I am finally done with questions"); 
+            }
+        }
+    }
+}
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="obj_guy">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>other</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Setting the global.col_with to true when it collides 
+
+//It will only change the game state, if and only if the game_state is set to regular
+//This is done so the character can walk away, and talk to them again, if they wish.
+if (global.game_state == global.game_state_regular) {
+    global.game_state = global.game_state_textbox; 
+}
+
+//Setting the collison with variable. 
+//This is only true if the textbox is displayed
+//This is added so the text box can display the correct message
+if (global.game_state == global.game_state_textbox) {
+    global.col_with = global.col_with_door; 
+} else {
+    global.col_with = global.col_with_nobody; 
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Drawing the text &amp; background in the bottom half of the screen. 
+
+//Redrawing the sprite
+if (global.col_with != global.col_with_door) {
+    draw_self();
+}
+
+//Only draw the textbox if the global.game_state is on the textbox state. 
+if (global.game_state == global.game_state_textbox &amp;&amp;  global.col_with == global.col_with_door) {
+    //The positions of the rectangles, text, and the "Press Z to continue."
+    xpos_rect1 = 0;
+    ypos_rect1 = 0;
+    xpos_rect2 = room_width;
+    ypos_rect2 = room_height;
+    
+    xpos_text = 16;
+    ypos_text = 16;
+    
+    xpos_z = 8;
+    ypos_z = 356;
+    
+    xpos_answer = 48;
+    ypos_ansawer = 240;
+    
+    //Only draw the textbox if the global.game_state is on the textbox state. 
+    if (global.game_state == global.game_state_textbox){
+        //Setting the background color
+        draw_set_color(c_black);
+    
+        //Setting the rectangle
+        draw_rectangle(xpos_rect1, ypos_rect1, xpos_rect2, ypos_rect2, false);
+        //Changing the font color to white
+        draw_set_color(c_white); 
+        //Displaying the message
+        draw_text_ext(xpos_text, ypos_text, question_draw, 14, room_width-10);
+        
+        draw_set_color(c_blue); 
+        //Displaying the message
+        draw_text_ext(48, 240, answer_draw, 14, room_width-10);
+        
+        //Changing the font color to red
+        draw_set_color(c_red);
+        //Informing the user that they have to press z to continue. 
+        draw_text_ext(xpos_z, ypos_z, "Press A = A, B = B, C = C, D = D", 15, room_width);
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+  </events>
   <PhysicsObject>0</PhysicsObject>
   <PhysicsObjectSensor>0</PhysicsObjectSensor>
   <PhysicsObjectShape>0</PhysicsObjectShape>
@@ -19,5 +233,8 @@
   <PhysicsObjectFriction>0.200000002980232</PhysicsObjectFriction>
   <PhysicsObjectAwake>-1</PhysicsObjectAwake>
   <PhysicsObjectKinematic>0</PhysicsObjectKinematic>
-  <PhysicsShapePoints/>
+  <PhysicsShapePoints>
+    <point>17,16</point>
+    <point>18,18</point>
+  </PhysicsShapePoints>
 </object>

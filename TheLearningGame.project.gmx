@@ -33,6 +33,7 @@
   </scripts>
   <objects name="objects">
     <object>objects\obj_guy</object>
+    <object>objects\obj_door</object>
     <object>objects\obj_diana</object>
     <object>objects\obj_ladyinred</object>
     <object>objects\obj_guyinred</object>
@@ -40,7 +41,6 @@
     <object>objects\obj_guyinhat</object>
     <object>objects\obj_guyingreen</object>
     <object>objects\obj_invisible</object>
-    <object>objects\obj_door</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room_1</room>

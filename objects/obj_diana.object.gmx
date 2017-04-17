@@ -177,7 +177,9 @@ if (global.game_state == global.game_state_textbox) {
             <string>///Drawing the text &amp; background in the bottom half of the screen. 
 
 //Redrawing the sprite
-draw_self();
+if (global.col_with != global.col_with_door) {
+    draw_self();
+}
 
 //Only draw the textbox if the global.game_state is on the textbox state. 
 if (global.game_state == global.game_state_textbox &amp;&amp;  global.col_with == global.col_with_diana) {
