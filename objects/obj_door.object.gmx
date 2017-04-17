@@ -44,7 +44,7 @@ question[10] = "What score did Breath of the Wild receive on IGN Reviews?";
 
 correctAnswer[0] = "Dirty martini";
 otherChoice1[0] = "Lemonade";
-otherchoice2[0]= "Long island";
+otherChoice2[0]= "Long island";
 otherChoice3[0]= "Jack and Coke";
 
 //edit numbers below
@@ -108,6 +108,55 @@ if (global.game_state == global.game_state_textbox &amp;&amp;  global.col_with =
         }
     }
 }
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Randomize the answers
+if (global.game_state != global.game_state_textbox) {
+
+    data[0] = correctAnswer[question_current];
+    data[1] = otherChoice1[question_current];
+    data[2] = otherChoice2[question_current];
+    data[3] = otherChoice3[question_current];
+    
+    size = 4;
+    
+    var i, j, k;
+    for (i = 0; i &lt; size; i += 1){
+        j = irandom_range(i, size - 1)
+        if (i != j)
+        {
+            k = data[i]
+            data[i] = data[j]
+            data[j] = k
+        }
+        
+    }
+}
+    
+
+
+
+
 
 
 </string>
@@ -208,7 +257,10 @@ if (global.game_state == global.game_state_textbox &amp;&amp;  global.col_with =
         
         draw_set_color(c_blue); 
         //Displaying the message
-        draw_text_ext(48, 240, answer_draw, 14, room_width-10);
+        draw_text_ext(16, 280, string("A: ") + string(data[0]), 14, room_width-10);
+        draw_text_ext(288, 280, string("B: ") + string(data[1]), 14, room_width-10);
+        draw_text_ext(16, 320, string("C: ") + string(data[2]), 14, room_width-10);
+        draw_text_ext(288, 320, string("D: ") + string(data[3]), 14, room_width-10);
         
         //Changing the font color to red
         draw_set_color(c_red);
