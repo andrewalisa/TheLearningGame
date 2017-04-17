@@ -273,7 +273,9 @@ if (global.game_state != global.game_state_textbox) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (!global.char_isBottom) {
+            <string>//If the player is NOT talking to a character in the bottom, it will draw itself
+//Otherwise, it will disappear when the textbox appears.
+if (!global.char_isBottom) {
     draw_self();
     show_debug_message("I am being drawn in the bottom");
 }
