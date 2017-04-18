@@ -40,24 +40,103 @@ question[7] = "Where did fedoras first originate?";
 question[8] = "Who wore the brim turned down so it could cover their eyes?";
 question[9] = "What is the latest Zelda game called?";
 question[10] = "What score did Breath of the Wild receive on IGN Reviews?";
+question[11] = "Your Score: ";
 
+//scr_answerChoices();
 
-correctAnswer[0] = "Dirty martini";
+//edit numbers below
+question_current = 0; //0 is the first number in our array, and the message we are currently at
+question_end = 11; //11 is the last number in our array
+question_draw = ""; //this is what we 'write' out. It's blank right now
+answer_draw = ""; //this is what we 'write' out. It's blank right now
+increase = 3; //the speed at which new characters are added
+characters = 0; //how many characters have already been drawn
+hold = 0; //if we hold 'Z', the text will render faster
+global.points = 0;
+
+question_length = string_length(question[question_current]); //get the number of characters in the first message
+
+moveon = false;
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>correctAnswer[0] = "Dirty martini";
 otherChoice1[0] = "Lemonade";
 otherChoice2[0]= "Long island";
 otherChoice3[0]= "Jack and Coke";
 
-//edit numbers below
-question_current = 0; //0 is the first number in our array, and the message we are currently at
-question_end = 10; //2 is the last number in our array
-question_draw = ""; //this is what we 'write' out. It's blank right now
-answer_draw = ""; //this is what we 'write' out. It's blank right now
-increase = 0.5; //the speed at which new characters are added
-characters = 0; //how many characters have already been drawn
-hold = 0; //if we hold 'Z', the text will render faster
+correctAnswer[1] = "3 times";
+otherChoice1[1] = "5 times";
+otherChoice2[1]= "7 times";
+otherChoice3[1]= "2 times";
 
-question_length = string_length(question[question_current]); //get the number of characters in the first message
+correctAnswer[2] = "2";
+otherChoice1[2] = "6";
+otherChoice2[2]= "4";
+otherChoice3[2]= "3";
 
+correctAnswer[3] = "The Sun";
+otherChoice1[3] = "The Moon";
+otherChoice2[3]= "The Ocean";
+otherChoice3[3]= "The Equator";
+
+correctAnswer[4] = "A Headache";
+otherChoice1[4] = "Diarrhea";
+otherChoice2[4]= "A Cold";
+otherChoice3[4]= "A Fever";
+
+correctAnswer[5] = "Hop";
+otherChoice1[5] = "Kick";
+otherChoice2[5]= "Run";
+otherChoice3[5]= "Poop";
+
+correctAnswer[6] = "Humans";
+otherChoice1[6] = "Other Animals";
+otherChoice2[6]= "Computers";
+otherChoice3[6]= "Restaurants";
+
+correctAnswer[7] = "France";
+otherChoice1[7] = "Iraq";
+otherChoice2[7]= "Albania";
+otherChoice3[7]= "Canada";
+
+correctAnswer[8] = "Gangsters &amp; Young Men";
+otherChoice1[8] = "Workers";
+otherChoice2[8]= "Casual Men";
+otherChoice3[8]= "Workers";
+
+correctAnswer[9] = "Breath of the Wild";
+otherChoice1[9] = "Majora's Mask";
+otherChoice2[9]= "Ocarina of Time";
+otherChoice3[9]= "Twilight Princess";
+
+correctAnswer[10] = "10/10";
+otherChoice1[10] = "8/10";
+otherChoice2[10]= "6.69/10";
+otherChoice3[10]= "7.75/10";
+
+correctAnswer[11] = "";
+otherChoice1[11] = "";
+otherChoice2[11]= "";
+otherChoice3[11]= "";
 
 </string>
           </argument>
@@ -83,7 +162,7 @@ question_length = string_length(question[question_current]); //get the number of
             <kind>1</kind>
             <string>///This controls what is outputted to the textbox. 
 
-if (global.game_state == global.game_state_textbox &amp;&amp;  global.col_with == global.col_with_door) {
+if (global.game_state == global.game_state_textbox &amp;&amp;  global.col_with == global.col_with_door &amp;&amp; question_current &lt; 12) {
     if (characters &lt; question_length) { //if current character count is less than the amount in current message* 
         hold = keyboard_check(ord("Z")); //hold is true or false if we hold 'Z' or not
         characters += increase * (1 + hold); //increase speed based on hold
@@ -91,16 +170,20 @@ if (global.game_state == global.game_state_textbox &amp;&amp;  global.col_with =
         answer_draw = string_copy(correctAnswer[question_current], 0, characters);
     } 
     else { //if current character is more than the amount in the current message
-        if (keyboard_check_pressed(ord("Z"))) { //if we press Z...
-            if (question_current &lt; question_end) { //if there are more messages left to show (0 -&gt; 6, in our case)
-                question_current += 1; //increase the message by 1
+        if (moveon) {
+            if (question_current &lt; question_end ) { //if there are more messages left to show 
                 question_length = string_length(question[question_current]);  //get the new character length for message
                 characters = 0; //set the characters back to 0
+                moveon = false; //Set this to false
+            } else if (question_current &gt; 10) {
+                moveon = false;
+                characters = 0;
+                show_debug_message("Question is now 11");
             }
             else { //if our messages are done (we reach 6, in our case)...
                 question_draw = ""; //Setting this to blank  
                 answer_draw = ""; //Setting this to blank  
-                question_current = 0; // Resetting the variable
+                //question_current = 0; // Resetting the variable
                 characters = 0; //set the characters back to 0
                 //global.game_state = global.game_state_doneQuestions; //Changing the game state to the character now done talking
                 //show_debug_message("I am finally done with questions"); 
@@ -130,8 +213,97 @@ if (global.game_state == global.game_state_textbox &amp;&amp;  global.col_with =
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>///Incrementing the points
+
+//If A is pressed 
+ if (question_current &lt; 12) {
+    if (keyboard_check_pressed(ord("A"))) {
+       if (correctAnswer[question_current] == data[0]) {
+           if (question_current &lt; 11){
+               global.points += 1;
+           }
+           
+       }
+       moveon = true;
+       
+       if (question_current &lt; 12) {
+        question_current += 1;
+       } else {
+        question_current = 11;
+       }
+    }
+    
+    ////If B is pressed 
+     if (keyboard_check_pressed(ord("B"))) {
+        if (correctAnswer[question_current] == data[1]) {
+           if (question_current &lt; 11){
+               global.points += 1;
+           }
+            
+            
+        }
+        
+        moveon = true;
+           if (question_current &lt; 12) {
+            question_current += 1;
+           } else {
+            question_current = 11;
+           }
+     }   
+    //If C is pressed 
+     if (keyboard_check_pressed(ord("C"))) {
+        if (correctAnswer[question_current] == data[2]) {
+           if (question_current &lt; 11){
+               global.points += 1;
+           }
+        }
+        moveon = true;
+           if (question_current &lt; 12) {
+            question_current += 1;
+           } else {
+            question_current = 11;
+           }
+     }     
+    //If D is pressed 
+     if (keyboard_check_pressed(ord("D"))) {
+        if (correctAnswer[question_current] == data[3]) {
+           if (question_current &lt; 11){
+               global.points += 1;
+           }
+        }
+        moveon = true;
+           if (question_current &lt; 12) {
+            question_current += 1;
+           } else {
+            question_current = 11;
+           }
+     }     
+ }
+ 
+ show_debug_message(string(global.points) + string(" THESE ARE THE POINTS"));
+ show_debug_message(string(question_current) + string(" THESE ARE THE current questions"));
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>///Randomize the answers
-if (global.game_state != global.game_state_textbox) {
+if (global.game_state != global.game_state_textbox or moveon &amp;&amp; question_current &lt; 12 ) {
 
     data[0] = correctAnswer[question_current];
     data[1] = otherChoice1[question_current];
@@ -244,7 +416,7 @@ if (global.game_state == global.game_state_textbox &amp;&amp;  global.col_with =
     ypos_ansawer = 240;
     
     //Only draw the textbox if the global.game_state is on the textbox state. 
-    if (global.game_state == global.game_state_textbox){
+    if (global.game_state == global.game_state_textbox &amp;&amp; question_current &lt; 11){
         //Setting the background color
         draw_set_color(c_black);
     
@@ -254,6 +426,10 @@ if (global.game_state == global.game_state_textbox &amp;&amp;  global.col_with =
         draw_set_color(c_white); 
         //Displaying the message
         draw_text_ext(xpos_text, ypos_text, question_draw, 14, room_width-10);
+        
+        draw_set_color(c_aqua);
+        
+        draw_text(room_width/2, room_height/2, string(global.points) + string(" /11"));
         
         draw_set_color(c_blue); 
         //Displaying the message
@@ -266,6 +442,26 @@ if (global.game_state == global.game_state_textbox &amp;&amp;  global.col_with =
         draw_set_color(c_red);
         //Informing the user that they have to press z to continue. 
         draw_text_ext(xpos_z, ypos_z, "Press A = A, B = B, C = C, D = D", 15, room_width);
+    } else if (global.game_state == global.game_state_textbox &amp;&amp; question_current &gt; 10) {
+        //Setting the background color
+        draw_set_color(c_black);
+    
+        //Setting the rectangle
+        draw_rectangle(xpos_rect1, ypos_rect1, xpos_rect2, ypos_rect2, false);
+        
+        //Changing the font color to white
+        draw_set_color(c_white); 
+        //Displaying the message
+        draw_text_ext(xpos_text, ypos_text, question_draw, 14, room_width-10);
+        
+        draw_set_color(c_aqua);
+        
+        draw_text(room_width/2, room_height/2, string(global.points) + string(" /11"));
+        
+        //Changing the font color to red
+        draw_set_color(c_red);
+        //Informing the user that they have to press z to continue. 
+        draw_text_ext(xpos_z, ypos_z, "Press ESCAPE to exit", 15, room_width);
     }
 }
 </string>
