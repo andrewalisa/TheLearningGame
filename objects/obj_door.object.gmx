@@ -78,7 +78,8 @@ moveon = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>correctAnswer[0] = "Dirty martini";
+            <string>///Answers and choices array.
+correctAnswer[0] = "Dirty martini";
 otherChoice1[0] = "Lemonade";
 otherChoice2[0]= "Long island";
 otherChoice3[0]= "Jack and Coke";
@@ -183,10 +184,7 @@ if (global.game_state == global.game_state_textbox &amp;&amp;  global.col_with =
             else { //if our messages are done (we reach 6, in our case)...
                 question_draw = ""; //Setting this to blank  
                 answer_draw = ""; //Setting this to blank  
-                //question_current = 0; // Resetting the variable
                 characters = 0; //set the characters back to 0
-                //global.game_state = global.game_state_doneQuestions; //Changing the game state to the character now done talking
-                //show_debug_message("I am finally done with questions"); 
             }
         }
     }
@@ -280,8 +278,7 @@ if (global.game_state == global.game_state_textbox &amp;&amp;  global.col_with =
      }     
  }
  
- show_debug_message(string(global.points) + string(" THESE ARE THE POINTS"));
- show_debug_message(string(question_current) + string(" THESE ARE THE current questions"));
+
 </string>
           </argument>
         </arguments>
